@@ -1,0 +1,65 @@
+Extended euclidean :
+
+
+We need to find integral x and y such that
+
+ax + by =gcd(a,b);
+
+Solution:   So what we do in euclid theorem is...
+            we recursivly calculate the gcd as following.
+ 	    
+            int gcd(int a,int b)
+            {
+                if(a==0)
+                   return b;
+                return gcd(b%a,a);
+            }
+            Now from above for a and b in recursive call ( gcd(a,b) , gcd(b%a,a) .....so on till first term gets to be zero)
+            ,we would always have hcf or gcd which will be equal to gcd(a,b);
+            
+            For the base case when first term gets zero,
+            gcd(0,bfinal) , solution x and y would look like this x*0 + y*bfinal=gcd(a,b)
+
+            Actually in the last line bfinal will be gcd(a,b)(why? see function where a is 0 we return b) , therefore x is 0
+            and y is 1 for base case.
+            L
+
+            Let's define the function...
+            int gcdExtended(int a, int b, int& x,int& y)
+            {
+                 if(a==0)        //Base case as given explanation above
+                 {
+                      x=0;
+                      y=1;
+                      return b;
+                 }
+                 int x1,y1;
+                 int gcd=gcdExtended(b%a , a,  x1, y1);
+                 x=y1-(b/a)x1;
+                 y=x1;           // Proof or explanation given below
+                 return gcd;
+            }
+           
+            So let's take a look at general case and how it really works
+            
+            ax  + by = gcd(a,b)
+            
+            (b%a)x1 + ay1= gcd(a,b)
+
+            equating we get
+            ax  +by  = (b%a)x1 + ay1                          ----A
+            
+            Now b=a*(b/a)+b%a ;     (can we write this?)
+            put this in equation A
+            ax  +(a*(b/a) + b%a)y = (b%a)x1 + ay1           -------B
+
+            So we already know a,b,x1 and y1 we need to find x and y (integral values)
+
+            Now if put      (y=x1)    we get equation B as following
+            ax + a*(b/a)y = ay1
+         ->  x +   (b/a)y =y1
+         ->  x = y1  -  (b/a)x1    
+
+
+            So we obtain x=y1  -  (b/a)x1 and y=x1
+            
